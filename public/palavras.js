@@ -1,4 +1,3 @@
-// Dicionário: para adicionar uma palavra, copie um bloco {...}, cole no fim da lista e troque os dados.
 window.PALAVRAS = [
   { kanji: "水", kana: "みず", romaji: "mizu", pt: "água", ex: "水を飲みます。", exPt: "Eu bebo água." },
   { kanji: "火", kana: "ひ", romaji: "hi", pt: "fogo", ex: "火が大きいです。", exPt: "O fogo está grande." },
