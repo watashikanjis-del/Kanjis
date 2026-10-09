@@ -3,76 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kanjis — dicionário japonês-português</title>
-<meta name="description" content="Dicionário japonês-português com kanji, leitura em kana, romaji e frases de exemplo. Busque em japonês ou em português.">
-<style>
-:root{--papel:#F3EFE4;--tinta:#1C1A17;--suave:#6B655A;--linha:#D9D2C0;--hanko:#C0182B}
-@media (prefers-color-scheme:dark){:root{--papel:#171512;--tinta:#EEE8D8;--suave:#A39C8C;--linha:#363229;--hanko:#E0364A}}
-*{box-sizing:border-box}
-html{background:var(--papel)}
-body{margin:0 auto;max-width:640px;padding:28px 20px 60px;color:var(--tinta);background:var(--papel);
-font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",Georgia,serif;line-height:1.6}
-header{display:flex;align-items:center;gap:14px;margin-bottom:26px}
-.selo{width:56px;height:56px;flex:none;background:var(--hanko);color:#fff;border-radius:6px;
-display:grid;place-items:center;font-size:34px;transform:rotate(-4deg)}
-h1{font-size:1.9rem;margin:0;line-height:1.1;letter-spacing:.02em}
-header p{margin:2px 0 0;color:var(--suave);font-size:.95rem}
-label{display:block;font-size:.95rem;color:var(--suave);margin-bottom:6px}
-input{width:100%;font:inherit;font-size:1.15rem;padding:12px 14px;border:2px solid var(--tinta);
-border-radius:4px;background:transparent;color:inherit}
-input:focus{outline:3px solid var(--hanko);outline-offset:2px}
-#info{margin:14px 0 6px;color:var(--suave);font-size:.9rem}
-.item{padding:16px 0;border-top:1px solid var(--linha)}
-.item:first-child{border-top:2px solid var(--tinta)}
-.k{font-size:2.4rem;line-height:1.1;color:var(--hanko)}
-.l{margin:2px 0 4px;color:var(--suave)}
-.m{font-size:1.2rem;font-weight:700;margin:0}
-.e{margin:8px 0 0;font-size:1rem}
-.e span{display:block;color:var(--suave);font-size:.9rem}
-.vazio{padding:18px 0;color:var(--suave)}
-footer{margin-top:40px;color:var(--suave);font-size:.85rem}
-</style>
+<meta name="robots" content="noindex">
+<title>Kanjis — língua japonesa</title>
+<meta name="description" content="Kanjis: um espaço para entender a língua japonesa, com dicionário japonês-português, kanji, leitura em kana e frases de exemplo.">
+<link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 <header>
   <div class="selo" aria-hidden="true">辞</div>
-  <div><h1>Kanjis</h1><p>Dicionário japonês-português</p></div>
+  <div><h1>Kanjis</h1><p>Língua japonesa</p></div>
 </header>
+<nav class="menu" aria-label="Seções do site">
+  <a href="index.html" aria-current="page">Dicionário</a>
+</nav>
 <main>
+  <h2>Dicionário</h2>
   <label for="busca">Buscar em japonês, romaji ou português</label>
   <input id="busca" type="search" autocomplete="off" placeholder="Ex.: água, mizu, 水">
   <p id="info"></p>
   <div id="lista"></div>
 </main>
-<footer>Kanjis · em construção. Novas palavras entram toda semana.</footer>
+<footer>Kanjis · em construção.</footer>
 <script src="palavras.js"></script>
 <script>
 (function(){
   var dados = window.PALAVRAS || [];
-  var busca = document.getElementById("busca");
-  var lista = document.getElementById("lista");
-  var info = document.getElementById("info");
-  function norm(t){return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();}
-  function esc(t){var d=document.createElement("div");d.textContent=t||"";return d.innerHTML;}
-  function card(p){
-    return '<article class="item"><div class="k" lang="ja">'+esc(p.kanji)+'</div>'+
-      '<div class="l"><span lang="ja">'+esc(p.kana)+'</span> · '+esc(p.romaji)+'</div>'+
-      '<p class="m">'+esc(p.pt)+'</p>'+
-      (p.ex?'<p class="e" lang="ja">'+esc(p.ex)+'<span lang="pt-BR">'+esc(p.exPt)+'</span></p>':'')+
-      '</article>';
-  }
-  function mostrar(){
-    var q = norm(busca.value);
-    var r = !q ? dados : dados.filter(function(p){
-      return [p.kanji,p.kana,p.romaji,p.pt].some(function(c){return norm(c).indexOf(q)>-1;});
-    });
-    info.textContent = !q ? dados.length+" palavras no dicionário" : r.length+" resultado(s)";
-    lista.innerHTML = r.length ? r.map(card).join("") :
-      '<p class="vazio">Nada encontrado. Tente outra grafia ou busque em romaji.</p>';
-  }
-  busca.addEventListener("input", mostrar);
-  mostrar();
-})();
-</script>
-</body>
-</html>
