@@ -28,3 +28,30 @@
 <script>
 (function(){
   var dados = window.PALAVRAS || [];
+  var busca = document.getElementById("busca");
+  var lista = document.getElementById("lista");
+  var info = document.getElementById("info");
+  function norm(t){return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();}
+  function esc(t){var d=document.createElement("div");d.textContent=t||"";return d.innerHTML;}
+  function card(p){
+    return '<article class="item"><div class="k" lang="ja">'+esc(p.kanji)+'</div>'+
+      '<div class="l"><span lang="ja">'+esc(p.kana)+'</span> · '+esc(p.romaji)+'</div>'+
+      '<p class="m">'+esc(p.pt)+'</p>'+
+      (p.ex?'<p class="e" lang="ja">'+esc(p.ex)+'<span lang="pt-BR">'+esc(p.exPt)+'</span></p>':'')+
+      '</article>';
+  }
+  function mostrar(){
+    var q = norm(busca.value);
+    var r = !q ? dados : dados.filter(function(p){
+      return [p.kanji,p.kana,p.romaji,p.pt].some(function(c){return norm(c).indexOf(q)>-1;});
+    });
+    info.textContent = !q ? dados.length+" palavras no dicionário" : r.length+" resultado(s)";
+    lista.innerHTML = r.length ? r.map(card).join("") :
+      '<p class="vazio">Nada encontrado. Tente outra grafia ou busque em romaji.</p>';
+  }
+  busca.addEventListener("input", mostrar);
+  mostrar();
+})();
+</script>
+</body>
+</html>
